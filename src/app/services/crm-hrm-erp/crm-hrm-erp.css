@@ -1,0 +1,174 @@
+/* Custom CRM / HRMS / ERP service page — scoped under
+   .route-crm-erp / html.route-crm-erp. Scrolling content page with the
+   shared fixed grid background + interactive cursor canvas. */
+
+html.route-crm-erp{
+  --bg:#EEF1F8; --fg:#0D1B33; --mut:rgba(13,27,51,.62); --ac:#2742F5;
+  --gridl:rgba(13,27,51,.06);
+}
+html.route-crm-erp body{
+  font-family:'Inter',sans-serif; color:var(--fg);
+  background:
+    radial-gradient(70% 55% at 12% 4%,rgba(39,66,245,.10),transparent 60%),
+    radial-gradient(60% 55% at 90% 98%,rgba(255,107,53,.08),transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+}
+.route-crm-erp h1,.route-crm-erp h2,.route-crm-erp h3{font-family:'Space Grotesk',sans-serif}
+.route-crm-erp .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ac)}
+.route-crm-erp a{color:inherit;text-decoration:none}
+.route-crm-erp ::selection{background:var(--ac);color:#fff}
+
+/* fixed backdrop layers */
+.route-crm-erp #gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--gridl) 1px,transparent 1px),linear-gradient(90deg,var(--gridl) 1px,transparent 1px);
+  background-size:48px 48px;}
+.route-crm-erp #gridCanvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none}
+
+/* content column (scrolls over the fixed backdrop) */
+.route-crm-erp .wrap{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 24px 96px}
+
+/* back link */
+
+/* hero */
+.route-crm-erp .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;margin:120px 0 70px;
+  opacity:0;animation:r_crm_rise .8s .1s cubic-bezier(.22,1,.36,1) both}
+.route-crm-erp .hero-copy{max-width:600px}
+.route-crm-erp .hero .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px}
+.route-crm-erp .hero .eyebrow::before{content:'';width:26px;height:1.5px;background:var(--ac)}
+.route-crm-erp .hero h1{font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.02em}
+.route-crm-erp .hero h1 em{font-style:normal;color:var(--ac)}
+.route-crm-erp .hero p{margin:20px 0 0;color:var(--mut);line-height:1.75;font-size:1.06rem;max-width:600px}
+
+/* shared CTA button */
+.route-crm-erp .cta{display:inline-flex;align-items:center;gap:9px;margin-top:28px;
+  font-family:'Space Grotesk';font-weight:600;font-size:.95rem;padding:14px 28px;border-radius:10px;
+  background:var(--fg);color:#fff;transition:all .35s}
+.route-crm-erp .cta:hover{background:var(--ac);transform:translateY(-3px);box-shadow:0 12px 30px rgba(39,66,245,.3)}
+.route-crm-erp .cta .arr{transition:transform .3s}
+.route-crm-erp .cta:hover .arr{transform:translateX(5px)}
+
+/* three systems */
+.route-crm-erp .systems{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:70px}
+.route-crm-erp .card{background:rgba(255,255,255,.72);border:1px solid rgba(13,27,51,.09);border-radius:18px;
+  padding:28px 26px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  box-shadow:0 14px 34px rgba(13,27,51,.07);transition:transform .35s,box-shadow .35s,border-color .35s}
+.route-crm-erp .card:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(13,27,51,.13);border-color:rgba(39,66,245,.3)}
+.route-crm-erp .svc-ico{width:56px;height:56px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  background:rgba(39,66,245,.08);margin-bottom:18px}
+.route-crm-erp .svc-ico svg{width:32px;height:32px}
+.route-crm-erp .svc-ico .ln{stroke:var(--fg);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.route-crm-erp .svc-ico .ac{stroke:var(--ac)}
+.route-crm-erp .card h2{font-size:1.35rem;margin-bottom:10px}
+.route-crm-erp .card p{color:var(--mut);line-height:1.65;font-size:.95rem;margin-bottom:16px}
+.route-crm-erp .card ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.route-crm-erp .card li{position:relative;padding-left:20px;font-size:.9rem;color:var(--fg)}
+.route-crm-erp .card li::before{content:'';position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:50%;
+  background:var(--ac);opacity:.85}
+
+/* why custom */
+.route-crm-erp .sec-title{font-size:clamp(1.6rem,3.2vw,2.2rem);letter-spacing:-.01em;margin-bottom:30px;text-align:center}
+.route-crm-erp .why{margin-bottom:70px}
+.route-crm-erp .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.route-crm-erp .why-item{background:rgba(255,255,255,.55);border:1px solid rgba(13,27,51,.08);border-radius:14px;padding:22px 24px}
+.route-crm-erp .why-item h3{font-size:1.08rem;margin-bottom:8px;display:flex;align-items:center;gap:9px}
+.route-crm-erp .why-item h3::before{content:'';width:10px;height:10px;border-radius:3px;background:var(--ac);flex-shrink:0}
+.route-crm-erp .why-item p{color:var(--mut);line-height:1.65;font-size:.94rem}
+
+/* tech chips */
+.route-crm-erp .tech{text-align:center;margin-bottom:70px}
+.route-crm-erp .tech .mono{display:block;margin-bottom:16px}
+.route-crm-erp .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.route-crm-erp .chip{font-size:.82rem;font-weight:600;padding:9px 16px;border-radius:99px;
+  background:rgba(39,66,245,.08);border:1px solid rgba(39,66,245,.16);transition:all .3s}
+.route-crm-erp .chip:hover{background:var(--ac);color:#fff;transform:translateY(-2px)}
+
+/* bottom CTA band */
+.route-crm-erp .cta-band{text-align:center;background:linear-gradient(135deg,rgba(39,66,245,.1),rgba(39,66,245,.03));
+  border:1px solid rgba(39,66,245,.18);border-radius:22px;padding:48px 30px}
+.route-crm-erp .cta-band h2{font-size:clamp(1.5rem,3.2vw,2.1rem);letter-spacing:-.01em}
+.route-crm-erp .cta-band p{color:var(--mut);margin-top:12px;font-size:1.02rem}
+
+/* scroll reveal */
+.route-crm-erp .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.route-crm-erp .rv.in{opacity:1;transform:none}
+.route-crm-erp .systems .card:nth-child(2){transition-delay:.1s}
+.route-crm-erp .systems .card:nth-child(3){transition-delay:.2s}
+
+@keyframes r_crm_rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .route-crm-erp .systems{grid-template-columns:1fr;gap:18px}
+  .route-crm-erp .hero{grid-template-columns:1fr;gap:32px;text-align:center}
+  .route-crm-erp .hero-copy{max-width:none;margin:0 auto}
+  .route-crm-erp .hero .eyebrow{justify-content:center}
+  .route-crm-erp .hero p{margin-left:auto;margin-right:auto}
+  .route-crm-erp .hero-art{order:-1;max-width:380px;margin:0 auto}
+}
+@media(max-width:680px){
+  .route-crm-erp .wrap{padding:0 18px 72px}
+  .route-crm-erp .hero{margin-top:104px;margin-bottom:44px}
+  .route-crm-erp .hero p{font-size:1rem}
+  .route-crm-erp .hero-art{max-width:300px}
+  .route-crm-erp .why-grid{grid-template-columns:1fr}
+  .route-crm-erp .cta-band{padding:38px 22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .route-crm-erp .hero,.route-crm-erp .rv{animation:none!important;opacity:1!important;transform:none!important;transition:none!important}
+}
+
+/* ---------- card hover animations ---------- */
+.route-crm-erp .card{position:relative;overflow:hidden}
+.route-crm-erp .card::after{content:'';position:absolute;top:0;left:-70%;width:55%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(39,66,245,.12),transparent);
+  transform:skewX(-18deg);transition:left .65s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.route-crm-erp .card:hover::after{left:130%}
+.route-crm-erp .svc-ico{transition:transform .4s cubic-bezier(.22,1,.36,1),background .4s}
+.route-crm-erp .card:hover .svc-ico{transform:translateY(-3px) scale(1.08);background:rgba(39,66,245,.16)}
+.route-crm-erp .svc-ico .ln{transition:stroke .35s}
+.route-crm-erp .card:hover .svc-ico .ln{stroke:var(--ac)}
+.route-crm-erp .card h2{transition:color .3s}
+.route-crm-erp .card:hover h2{color:var(--ac)}
+.route-crm-erp .card li::before{transition:box-shadow .3s}
+.route-crm-erp .card:hover li::before{box-shadow:0 0 0 3px rgba(39,66,245,.14)}
+
+/* ---------- hero animated line-art (services-page style) ---------- */
+.route-crm-erp .hero-art{position:relative}
+.route-crm-erp .art-svg{width:100%;height:auto;display:block;overflow:visible;max-width:460px;margin-left:auto}
+.route-crm-erp .art-svg .ln{stroke:var(--fg);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.route-crm-erp .art-svg .ac{stroke:var(--ac)}
+.route-crm-erp .art-svg .fac{fill:var(--ac);stroke:none}
+.route-crm-erp .art-svg .soft{opacity:.34}
+
+.route-crm-erp .art-svg .float{animation:art_float 6s ease-in-out infinite}
+@keyframes art_float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.route-crm-erp .art-svg .bar{transform-box:fill-box;transform-origin:bottom;animation:art_grow 3s ease-in-out infinite}
+.route-crm-erp .art-svg .b1{animation-delay:0s}
+.route-crm-erp .art-svg .b2{animation-delay:.3s}
+.route-crm-erp .art-svg .b3{animation-delay:.6s}
+.route-crm-erp .art-svg .b4{animation-delay:.9s}
+@keyframes art_grow{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+.route-crm-erp .art-svg .draw{stroke-dasharray:260;stroke-dashoffset:260;animation:art_draw 3.4s ease-in-out infinite}
+@keyframes art_draw{0%{stroke-dashoffset:260}55%,100%{stroke-dashoffset:0}}
+
+.route-crm-erp .art-svg .pulse{transform-box:fill-box;transform-origin:center;animation:art_pulse 2.2s ease-in-out infinite}
+@keyframes art_pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+
+.route-crm-erp .art-svg .dash{stroke-dasharray:5 6;animation:art_dash 1.2s linear infinite}
+@keyframes art_dash{to{stroke-dashoffset:-11}}
+
+.route-crm-erp .art-svg .slidey{animation:art_slide 3.6s ease-in-out infinite}
+@keyframes art_slide{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(-8px);opacity:1}}
+
+.route-crm-erp .art-svg .bob2{animation:art_bob2 5s ease-in-out infinite}
+@keyframes art_bob2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* stop hero art under reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .route-crm-erp .art-svg *{animation:none!important}
+  .route-crm-erp .art-svg .draw{stroke-dashoffset:0!important}
+}
