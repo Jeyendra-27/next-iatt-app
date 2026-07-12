@@ -405,7 +405,348 @@ html.route-home body{
 .route-home .ind-svg .w2 { animation-delay: 0.4s; }
 .route-home .ind-svg .w3 { animation-delay: 0.8s; }
 .route-home .ind-svg .w4 { animation-delay: 1.2s; }
-.route-home .ind-svg .w5 { animation-delay: 1.6s; }
+.route-home .ind-svg .w5 { animation-delay: 1.6s; }/* ============================================================
+   GLOBAL STYLES
+   Shared design tokens + base + the canonical site chrome
+   (Navbar + Footer + logo). Page-specific styles live in each
+   route's own scoped CSS file (.route-<name> / html.route-<name>).
+   ============================================================ */
+
+:root{
+  --paper:#F6F8FC;
+  --ink:#0D1B33;
+  --blue:#2742F5;
+  --blue-soft:#E8EDFE;
+  --grid:#DCE6F6;
+  --signal:#FF6B35;
+  --muted:#56688A;
+  --card:#FFFFFF;
+  --line:#C9D6EE;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+/* Default (scrolling pages: home / about / contact). Full-screen
+   routes override background + overflow via html.route-<name> body. */
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:48px 48px;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+
+/* ---------- NAV — Apple liquid glass (consistent across site) ---------- */
+nav{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:30px;
+  width:min(1320px,calc(100% - 36px));padding:10px 12px 10px 22px;border-radius:99px;
+  /* Liquid glass: near-clear material, light bends at the rim rather than fogging the middle */
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.06) 46%,rgba(255,255,255,.16));
+  backdrop-filter:blur(6px) saturate(190%) brightness(1.07);
+  -webkit-backdrop-filter:blur(6px) saturate(190%) brightness(1.07);
+  border:none;
+  box-shadow:
+    0 14px 44px rgba(13,27,51,.16),
+    0 1px 2px rgba(13,27,51,.10),
+    inset 0 1.5px 1px rgba(255,255,255,.95),
+    inset 0 -1.5px 1.5px rgba(255,255,255,.45),
+    inset 2px 0 2px -1px rgba(255,255,255,.55),
+    inset -2px 0 2px -1px rgba(255,255,255,.55);
+  overflow:hidden;animation:navIn .7s .15s cubic-bezier(.22,1,.36,1) both;
+}
+/* rim lensing + top-light gloss */
+nav::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.32),inset 0 0 16px 3px rgba(255,255,255,.20);
+  background:radial-gradient(130% 220% at 50% -80%,rgba(255,255,255,.42),transparent 58%);
+}
+@keyframes navIn{from{transform:translateX(-50%) translateY(-140%)}to{transform:translateX(-50%) translateY(0)}}
+nav::before{
+  content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55) 45%,rgba(255,255,255,.85) 50%,rgba(255,255,255,.55) 55%,transparent);
+  transform:skewX(-18deg);animation:sheen 9s ease-in-out infinite;pointer-events:none;
+}
+@keyframes sheen{0%,55%{left:-60%}80%,100%{left:130%}}
+
+.logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:1.1rem;color:#0D1B33;position:relative;z-index:1}
+.logo-mark,.logo svg,.logo img{width:26px;height:26px}
+.logo svg path{stroke:#2742F5;stroke-width:2;fill:none}
+
+.nav-links{display:flex;gap:2px;font-size:.86rem;font-weight:500;position:relative;z-index:1}
+.nav-links a{padding:8px 13px;border-radius:99px;color:#0D1B33;white-space:nowrap;transition:background .3s,color .25s}
+.nav-links a:hover,.nav-links a.on{background:rgba(39,66,245,.1);color:#2742F5}
+
+nav a.nav-cta{position:relative;z-index:1;padding:10px 18px;border-radius:50px;background:#000000;color:#ffffff;font-family:'Space Grotesk';font-weight:600;font-size:.85rem;white-space:nowrap;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,0,0,0.05);box-shadow:0 4px 14px rgba(0,0,0,.05)}
+nav a.nav-cta:hover{background:#000000;color:#ffffff;transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+nav a.nav-cta .arr{transition:transform .3s}
+nav a.nav-cta:hover .arr{transform:translateX(4px)}
+
+/* ---------- RESPONSIVE: hide desktop nav links & CTA below 1040px ---------- */
+@media(max-width:1040px){
+  .nav-links{display:none}
+  nav a.nav-cta-desktop{display:none !important}
+  nav{overflow:visible} /* allow burger to be clipped correctly */
+}
+
+/* ---------- HAMBURGER BUTTON ---------- */
+.nav-burger{
+  display:none;
+  flex-direction:column;justify-content:center;align-items:center;
+  gap:5px;width:38px;height:38px;padding:6px;border-radius:10px;
+  background:rgba(13,27,51,.07);border:1px solid rgba(13,27,51,.1);
+  cursor:pointer;position:relative;z-index:1;transition:background .25s;
+  flex-shrink:0;
+}
+.nav-burger:hover{background:rgba(39,66,245,.1)}
+.nav-burger span{
+  display:block;width:18px;height:2px;border-radius:2px;
+  background:#0D1B33 !important;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .25s;
+  transform-origin:center;
+}
+/* Animated X when open */
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+@media(max-width:1040px){.nav-burger{display:flex}}
+
+/* ---------- DRAWER OVERLAY ---------- */
+.nav-drawer-overlay{
+  position:fixed;inset:0;z-index:198;
+  background:rgba(13,27,51,.45);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s;
+}
+.nav-drawer-overlay.active{opacity:1;pointer-events:auto}
+
+/* ---------- SLIDE-IN DRAWER ---------- */
+.nav-drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:199;
+  width:min(320px, 88vw);
+  background:linear-gradient(160deg,rgba(255,255,255,.62),rgba(244,247,255,.44) 55%,rgba(255,255,255,.55));
+  backdrop-filter:blur(14px) saturate(190%) brightness(1.05);
+  -webkit-backdrop-filter:blur(14px) saturate(190%) brightness(1.05);
+  border-left:none;
+  box-shadow:
+    -10px 0 44px rgba(13,27,51,.2),
+    inset 1.5px 0 1px rgba(255,255,255,.9),
+    inset 0 1.5px 1px rgba(255,255,255,.9),
+    inset 0 0 0 1px rgba(255,255,255,.28),
+    inset 0 0 18px 3px rgba(255,255,255,.16);
+  display:flex;flex-direction:column;padding:20px;gap:0;
+  transform:translateX(100%);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.nav-drawer.active{transform:translateX(0)}
+
+/* Drawer header: logo + close button */
+.nav-drawer-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:20px;border-bottom:1px solid rgba(13,27,51,.08);
+  margin-bottom:16px;
+}
+.nav-drawer-close{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(13,27,51,.07);border:none;cursor:pointer;
+  font-size:1rem;color:#0D1B33;display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.nav-drawer-close:hover{background:rgba(39,66,245,.12);color:#2742F5}
+
+/* Drawer nav links */
+.nav-drawer-links{
+  display:flex;flex-direction:column;gap:2px;flex:1;
+}
+.nav-drawer-links a{
+  display:block;padding:13px 16px;border-radius:12px;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:1rem;
+  color:#0D1B33 !important;transition:background .25s,color .2s;
+}
+.nav-drawer-links a:hover,.nav-drawer-links a.on{
+  background:rgba(39,66,245,.1);color:#2742F5 !important;
+}
+.nav-drawer-links a.on{font-weight:600}
+
+/* CTA inside drawer */
+.nav-drawer-cta{
+  margin-top:20px;display:flex !important;justify-content:center;
+  padding:14px 20px !important;border-radius:14px !important;
+  font-size:.95rem !important;
+}
+
+/* ============================================================
+   LEGAL MODAL (Terms / Privacy) — paste into src/app/globals.css
+   Liquid-glass styling mirrors the navbar.
+   ============================================================ */
+
+/* the two clickable links in the footer copy row */
+.legal-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.legal-link {
+  background: none; border: none; padding: 0; margin: 0;
+  font: inherit; color: inherit; cursor: pointer; opacity: 0.85;
+  transition: opacity 0.25s, color 0.25s;
+}
+.legal-link:hover { opacity: 1; color: #2742F5; text-decoration: underline; }
+
+/* dimmed, slightly blurred backdrop */
+.legal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(8, 14, 28, 0.55);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  animation: legalFade 0.25s ease;
+}
+@keyframes legalFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* the glass panel — same recipe as the navbar */
+.legal-modal {
+  width: min(720px, 100%); max-height: 85vh;
+  display: flex; flex-direction: column;
+  border-radius: 22px; overflow: hidden; color: #0D1B33;
+  background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(255,255,255,0.6));
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.7);
+  box-shadow: 0 24px 60px rgba(13,27,51,0.32),
+              inset 0 1px 1px rgba(255,255,255,0.85),
+              inset 0 -1px 2px rgba(13,27,51,0.05);
+  animation: legalPop 0.3s cubic-bezier(.22,1,.36,1);
+}
+@keyframes legalPop {
+  from { transform: translateY(16px) scale(0.98); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* fixed header with title + close button */
+.legal-modal-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 20px 26px; border-bottom: 1px solid rgba(13,27,51,0.1);
+  flex-shrink: 0;
+}
+.legal-modal-head h3 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; margin: 0;
+}
+.legal-close {
+  width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%;
+  border: 1px solid rgba(13,27,51,0.15); background: rgba(255,255,255,0.5);
+  color: #0D1B33; font-size: 1.4rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.25s;
+}
+.legal-close:hover {
+  background: #2742F5; color: #fff; border-color: #2742F5; transform: rotate(90deg);
+}
+
+/* scrollable content area */
+.legal-modal-body { padding: 24px 26px 30px; overflow-y: auto; }
+.legal-modal-body h4 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; margin: 22px 0 8px;
+}
+.legal-modal-body h4:first-of-type { margin-top: 0; }
+.legal-modal-body p {
+  font-size: 0.92rem; line-height: 1.7; color: rgba(13,27,51,0.8); margin-bottom: 12px;
+}
+.legal-modal-body .legal-updated {
+  font-size: 0.8rem; color: rgba(13,27,51,0.55); margin-bottom: 18px;
+}
+
+@media (max-width: 600px) {
+  .legal-overlay { padding: 14px; }
+  .legal-modal { max-height: 90vh; }
+  .legal-modal-head { padding: 16px 18px; }
+  .legal-modal-body { padding: 18px; }
+}
+
+
+/* visually-hidden heading (kept for screen readers + SEO structure) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ============================================================
+   EXPLORE SERVICES DROPDOWN — paste into src/app/globals.css
+   Desktop: glass panel under the trigger. Mobile: expandable
+   sub-list inside the drawer. Matches the navbar's glass recipe.
+   ============================================================ */
+
+/* --- desktop trigger (sits in .nav-links) --- */
+.nav-dd-trigger{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 13px;border-radius:99px;
+  background:none;border:none;cursor:pointer;
+  font-family:inherit;font-size:.86rem;font-weight:500;color:inherit;white-space:nowrap;
+  transition:background .3s,color .25s;
+}
+.nav-dd-trigger:hover,.nav-dd-trigger.active{background:rgba(39,66,245,.1);color:#2742F5}
+.nav-dd-trigger .chev{font-size:.7em;transition:transform .25s}
+.nav-dd-trigger.active .chev{transform:rotate(180deg)}
+
+/* --- desktop dropdown panel (fixed, rendered outside <nav>) --- */
+.nav-dd-menu{
+  position:fixed;z-index:150;min-width:230px;padding:8px;
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.18) 50%,rgba(255,255,255,.30));
+  backdrop-filter:blur(9px) saturate(190%) brightness(1.06);
+  -webkit-backdrop-filter:blur(9px) saturate(190%) brightness(1.06);
+  border:none;
+  box-shadow:
+    0 18px 48px rgba(13,27,51,.2),
+    inset 0 1.5px 1px rgba(255,255,255,.95),
+    inset 0 -1.5px 1.5px rgba(255,255,255,.4),
+    inset 0 0 0 1px rgba(255,255,255,.3),
+    inset 0 0 14px 2px rgba(255,255,255,.18);
+  opacity:0;visibility:hidden;transform:translateX(-50%) translateY(-8px);
+  transition:opacity .25s,transform .25s,visibility .25s;
+}
+.nav-dd-menu.open{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav-dd-menu .dd-head{
+  display:block;padding:6px 14px 8px;
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(13,27,51,.5);
+}
+.nav-dd-menu a{
+  display:block;padding:11px 14px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:.9rem;color:#0D1B33;white-space:nowrap;
+  transition:background .2s,color .2s;
+}
+.nav-dd-menu a:hover,.nav-dd-menu a.on{background:rgba(39,66,245,.1);color:#2742F5}
+
+/* --- mobile drawer: expandable "Explore Services" --- */
+.nav-drawer-sub-toggle{
+  display:flex;align-items:center;justify-content:space-between;width:100%;
+  padding:13px 16px;border-radius:12px;
+  background:none;border:none;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:1rem;color:#0D1B33;
+  transition:background .25s,color .2s;
+}
+.nav-drawer-sub-toggle:hover,.nav-drawer-sub-toggle.open{background:rgba(39,66,245,.1);color:#2742F5}
+.nav-drawer-sub-toggle .chev{transition:transform .3s}
+.nav-drawer-sub-toggle.open .chev{transform:rotate(180deg)}
+.nav-drawer-sub{
+  overflow:hidden;max-height:0;display:flex;flex-direction:column;
+  transition:max-height .35s ease;
+}
+.nav-drawer-sub.open{max-height:360px}
+.nav-drawer-sub a{
+  display:block;padding:11px 16px 11px 30px;border-radius:12px;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:.95rem;color:#0D1B33;
+  transition:background .25s,color .2s;
+}
+.nav-drawer-sub a:hover,.nav-drawer-sub a.on{background:rgba(39,66,245,.1);color:#2742F5}
+
+/* Fallback where backdrop-filter is unsupported: solidify the glass */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  nav{background:rgba(255,255,255,.88)}
+  .nav-dd-menu{background:rgba(255,255,255,.94)}
+  .nav-drawer{background:rgba(255,255,255,.96)}
+}
 .route-home .ind-svg .w6 { animation-delay: 2.0s; }
 @keyframes ind_blink { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
 
