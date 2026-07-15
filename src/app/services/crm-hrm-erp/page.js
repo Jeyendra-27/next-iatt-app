@@ -5,6 +5,7 @@ import useRouteClass from "@/hooks/useRouteClass";
 import useScrollReveal from "@/hooks/useScrollReveal";
 import GridCanvas from "@/components/GridCanvas";
 import "./crm-hrm-erp.css";
+import Footer from "@/components/Footer";
 
 const INK = [13, 27, 51];
 const BLUE = [39, 66, 245];
@@ -220,6 +221,7 @@ export default function CrmHrmsErpPage() {
           </Link>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

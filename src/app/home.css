@@ -177,14 +177,6 @@ html.route-home body{
 .route-home .cta-box p{margin:18px auto 36px;max-width:460px;color:#C7D2FE;line-height:1.7;position:relative}
 .route-home .cta-box .btn{background:#fff;color:var(--ink);border-color:#fff;position:relative}
 .route-home .cta-box .btn:hover{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 10px 30px rgba(0,0,0,.3)}
-.route-home footer{background:rgba(255,255,255,.55);padding:56px 0 40px;border-top:1.5px solid var(--ink)}
-.route-home .foot{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
-.route-home .foot small{color:var(--muted);font-size:.82rem;display:block;margin-top:14px;max-width:280px;line-height:1.6}
-.route-home .foot-links{display:flex;gap:60px}
-.route-home .foot-links .mono{color:var(--muted);display:block;margin-bottom:14px}
-.route-home .foot-links ul{list-style:none;display:grid;gap:10px;font-size:.9rem}
-.route-home .foot-links a:hover{color:var(--blue)}
-.route-home .copy{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .route-home #progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:300;background:linear-gradient(90deg,var(--blue),var(--signal));transition:width .1s linear}
 .route-home .hero{overflow:hidden}
 .route-home #gridCanvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}

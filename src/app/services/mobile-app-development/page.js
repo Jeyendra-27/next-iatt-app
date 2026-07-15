@@ -5,6 +5,7 @@ import useRouteClass from "@/hooks/useRouteClass";
 import useScrollReveal from "@/hooks/useScrollReveal";
 import GridCanvas from "@/components/GridCanvas";
 import "./mobile-app-development.css";
+import Footer from "@/components/Footer";
 
 const INK = [13, 27, 51];
 const BLUE = [39, 66, 245];
@@ -224,6 +225,7 @@ export default function MobileAppDevelopmentPage() {
           </Link>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

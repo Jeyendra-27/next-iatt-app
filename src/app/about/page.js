@@ -7,6 +7,7 @@ import useCountUp from "@/hooks/useCountUp";
 import GridCanvas from "@/components/GridCanvas";
 import { ABOUT_ORBIT, ABOUT_WHOART } from "@/lib/raw-svg";
 import "./about.css";
+import Footer from "@/components/Footer";
 
 const BLUE = [39, 66, 245];
 const SIGNAL = [255, 107, 53];
@@ -218,6 +219,7 @@ export default function AboutPage() {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

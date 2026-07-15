@@ -5,6 +5,7 @@ import useRouteClass from "@/hooks/useRouteClass";
 import useScrollReveal from "@/hooks/useScrollReveal";
 import GridCanvas from "@/components/GridCanvas";
 import "./ai-ml-solutions.css";
+import Footer from "@/components/Footer";
 
 const BLUE = [39, 66, 245];
 const SIGNAL = [255, 107, 53];
@@ -168,6 +169,7 @@ export default function AiMlSolutionsPage() {
           </Link>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }
