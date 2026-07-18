@@ -194,7 +194,22 @@ export default function Footer() {
             alt="IAT Solutions logo"
             className="sf-brand-mark"
           />
-          <span className="sf-brand-word">IAT Solutions</span>
+          <svg
+            className="sf-brand-word"
+            viewBox="0 0 720 104"
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden="true"
+          >
+            <text
+              x="0"
+              y="84"
+              textLength="720"
+              lengthAdjust="spacingAndGlyphs"
+              className="sf-brand-text"
+            >
+              IAT Solutions
+            </text>
+          </svg>
         </Link>
 
         {/* bottom row: copyright + legal (left) · socials (right) */}

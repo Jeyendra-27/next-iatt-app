@@ -379,7 +379,7 @@ nav a.nav-cta:hover .arr{transform:translateX(4px)}
 /* --- giant brand signature --- */
 .sf-brand{
   display:flex;align-items:center;gap:clamp(14px,3vw,34px);
-  width:fit-content;margin-bottom:56px;
+  width:100%;margin-bottom:56px;
   color:var(--ink);
 }
 .sf-brand-mark{
@@ -388,10 +388,13 @@ nav a.nav-cta:hover .arr{transform:translateX(4px)}
   transition:transform .5s cubic-bezier(.22,1,.36,1);
 }
 .sf-brand-word{
-  font-family:'Space Grotesk',sans-serif;font-weight:700;
-  font-size:clamp(2.6rem,9.5vw,9rem);
-  line-height:.95;letter-spacing:-.04em;white-space:nowrap;
+  flex:1;min-width:0;width:100%;height:auto;display:block;
   transition:color .3s;
+}
+.sf-brand-text{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:96px;letter-spacing:-.04em;
+  fill:currentColor;
 }
 .sf-brand:hover .sf-brand-mark{transform:rotate(-8deg) scale(1.05)}
 .sf-brand:hover .sf-brand-word{color:var(--blue)}
