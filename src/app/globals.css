@@ -424,3 +424,17 @@ nav a.nav-cta:hover .arr{transform:translateX(4px)}
   .sf-brand{margin-bottom:40px}
   .sf-bottom{flex-direction:column;align-items:flex-start;gap:10px}
 }
+
+/* ============================================================
+   CUSTOM CURSOR — themed ring (matches the grid center).
+   Paste into src/app/globals.css. Hotspot is the center (12 12).
+   ============================================================ */
+:root{
+  --iat-cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgb3BhY2l0eT0iMC45Ii8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzI3NDJGNSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMi40IiBmaWxsPSIjZmZmZmZmIi8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEuNyIgZmlsbD0iI0ZGNkIzNSIvPgo8L3N2Zz4=") 12 12, pointer;
+}
+html{ cursor: var(--iat-cursor); }
+*{ cursor: inherit; }
+/* keep text fields usable */
+input, textarea, select, [contenteditable="true"]{ cursor: text; }
+/* keep disabled controls showing the not-allowed cursor */
+:disabled, [aria-disabled="true"]{ cursor: not-allowed; }
