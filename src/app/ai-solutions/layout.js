@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Services",
+  title: "AI Solutions",
   description:
-    "Custom software development services from IAT Solutions: web applications, mobile apps, AI solutions, and e-commerce builds tailored to your business.",
+    "Explore IAT Solutions' AI: OCR, NLP, computer vision, and more AI solutions built for logistics, healthcare, retail, and beyond.",
 };
 
 export default function ServicesLayout({ children }) {

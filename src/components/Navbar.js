@@ -8,9 +8,6 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/services", label: "What We Do" },
-  { href: "/solutions", label: "Our Works" },
-  { href: "/ai-solutions", label: "AI Solutions" },
-  { href: "/web-ecommerce", label: "Web & E-commerce" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -24,23 +21,32 @@ const SERVICE_PAGES = [
   { href: "/services/software-testing-qa", label: "Software Testing & QA" },
 ];
 
+// Our Works pages — grouped under the "Our Works" dropdown.
+const WORKS_PAGES = [
+  { href: "/solutions", label: "Custom Solutions" },
+  { href: "/ai-solutions", label: "AI Solutions" },
+  { href: "/web-ecommerce", label: "Web & E-commerce" },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false); // mobile drawer
-  const [ddOpen, setDdOpen] = useState(false); // desktop dropdown
+  const [ddOpen, setDdOpen] = useState(null); // desktop dropdown: null | "services" | "works"
   const [ddPos, setDdPos] = useState(null); // desktop dropdown position
-  const [drawerSub, setDrawerSub] = useState(false); // mobile sub-list
+  const [drawerSub, setDrawerSub] = useState(null); // mobile sub-list: null | "services" | "works"
 
-  const triggerRef = useRef(null);
+  const servicesTriggerRef = useRef(null);
+  const worksTriggerRef = useRef(null);
   const menuRef = useRef(null);
 
   const onServicePage = pathname.startsWith("/services/");
+  const onWorksPage = WORKS_PAGES.some((w) => pathname === w.href);
 
   // Close everything on route change
   useEffect(() => {
     setOpen(false);
-    setDdOpen(false);
-    setDrawerSub(false);
+    setDdOpen(null);
+    setDrawerSub(null);
   }, [pathname]);
 
   // Prevent body scroll when mobile drawer is open
@@ -56,16 +62,17 @@ export default function Navbar() {
     if (!ddOpen) return;
     const onDown = (e) => {
       if (
-        triggerRef.current?.contains(e.target) ||
+        servicesTriggerRef.current?.contains(e.target) ||
+        worksTriggerRef.current?.contains(e.target) ||
         menuRef.current?.contains(e.target)
       )
         return;
-      setDdOpen(false);
+      setDdOpen(null);
     };
     const onKey = (e) => {
-      if (e.key === "Escape") setDdOpen(false);
+      if (e.key === "Escape") setDdOpen(null);
     };
-    const onResize = () => setDdOpen(false);
+    const onResize = () => setDdOpen(null);
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
@@ -76,10 +83,10 @@ export default function Navbar() {
     };
   }, [ddOpen]);
 
-  const toggleDd = () => {
-    const r = triggerRef.current?.getBoundingClientRect();
+  const toggleDd = (key, ref) => {
+    const r = ref.current?.getBoundingClientRect();
     if (r) setDdPos({ left: r.left + r.width / 2, top: r.bottom + 10 });
-    setDdOpen((v) => !v);
+    setDdOpen((v) => (v === key ? null : key));
   };
 
   return (
@@ -107,18 +114,30 @@ export default function Navbar() {
                 {l.label}
               </Link>
 
-              {/* Our Services dropdown — sits right after "What We Do" */}
+              {/* Our Services + Our Works dropdowns — sit right after "What We Do" */}
               {l.href === "/services" && (
-                <button
-                  ref={triggerRef}
-                  type="button"
-                  className={`nav-dd-trigger${ddOpen || onServicePage ? " active" : ""}`}
-                  onClick={toggleDd}
-                  aria-haspopup="true"
-                  aria-expanded={ddOpen}
-                >
-                  Our Services <span className="chev">▾</span>
-                </button>
+                <>
+                  <button
+                    ref={servicesTriggerRef}
+                    type="button"
+                    className={`nav-dd-trigger${ddOpen === "services" || onServicePage ? " active" : ""}`}
+                    onClick={() => toggleDd("services", servicesTriggerRef)}
+                    aria-haspopup="true"
+                    aria-expanded={ddOpen === "services"}
+                  >
+                    Our Services <span className="chev">▾</span>
+                  </button>
+                  <button
+                    ref={worksTriggerRef}
+                    type="button"
+                    className={`nav-dd-trigger${ddOpen === "works" || onWorksPage ? " active" : ""}`}
+                    onClick={() => toggleDd("works", worksTriggerRef)}
+                    aria-haspopup="true"
+                    aria-expanded={ddOpen === "works"}
+                  >
+                    Our Works <span className="chev">▾</span>
+                  </button>
+                </>
               )}
             </Fragment>
           ))}
@@ -148,8 +167,10 @@ export default function Navbar() {
         style={ddPos ? { left: ddPos.left, top: ddPos.top } : undefined}
         role="menu"
       >
-        <span className="dd-head">Service pages</span>
-        {SERVICE_PAGES.map((s) => (
+        <span className="dd-head">
+          {ddOpen === "works" ? "Our Works" : "Service pages"}
+        </span>
+        {(ddOpen === "works" ? WORKS_PAGES : SERVICE_PAGES).map((s) => (
           <Link
             key={s.href}
             href={s.href}
@@ -201,19 +222,44 @@ export default function Navbar() {
                 {l.label}
               </Link>
 
-              {/* Our Services — expandable sub-list, right after "What We Do" */}
+              {/* Our Services + Our Works — expandable sub-lists, right after "What We Do" */}
               {l.href === "/services" && (
                 <>
                   <button
                     type="button"
-                    className={`nav-drawer-sub-toggle${drawerSub ? " open" : ""}`}
-                    onClick={() => setDrawerSub((v) => !v)}
-                    aria-expanded={drawerSub}
+                    className={`nav-drawer-sub-toggle${drawerSub === "services" ? " open" : ""}`}
+                    onClick={() =>
+                      setDrawerSub((v) => (v === "services" ? null : "services"))
+                    }
+                    aria-expanded={drawerSub === "services"}
                   >
                     Our Services <span className="chev">▾</span>
                   </button>
-                  <div className={`nav-drawer-sub${drawerSub ? " open" : ""}`}>
+                  <div className={`nav-drawer-sub${drawerSub === "services" ? " open" : ""}`}>
                     {SERVICE_PAGES.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className={pathname === s.href ? "on" : undefined}
+                        onClick={() => setOpen(false)}
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`nav-drawer-sub-toggle${drawerSub === "works" ? " open" : ""}`}
+                    onClick={() =>
+                      setDrawerSub((v) => (v === "works" ? null : "works"))
+                    }
+                    aria-expanded={drawerSub === "works"}
+                  >
+                    Our Works <span className="chev">▾</span>
+                  </button>
+                  <div className={`nav-drawer-sub${drawerSub === "works" ? " open" : ""}`}>
+                    {WORKS_PAGES.map((s) => (
                       <Link
                         key={s.href}
                         href={s.href}

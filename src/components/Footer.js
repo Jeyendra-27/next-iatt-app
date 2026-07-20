@@ -125,6 +125,13 @@ const SERVICE_LINKS = [
   { href: "/services/software-testing-qa", label: "Software Testing & QA" },
 ];
 
+// Our Works pages — grouped to match the "Our Works" nav dropdown.
+const WORKS_LINKS = [
+  { href: "/solutions", label: "Custom Solutions" },
+  { href: "/ai-solutions", label: "AI Solutions" },
+  { href: "/web-ecommerce", label: "Web & E-commerce" },
+];
+
 export default function Footer() {
   const [modal, setModal] = useState(null); // "terms" | "privacy" | null
 
@@ -157,12 +164,20 @@ export default function Footer() {
           <div className="sf-col">
             <span className="sf-head">Company</span>
             <ul>
-              <li><Link href="/services">Services</Link></li>
-              <li><Link href="/solutions">Work</Link></li>
-              <li><Link href="/ai-solutions">AI Solutions</Link></li>
-              <li><Link href="/web-ecommerce">Web &amp; E-commerce</Link></li>
+              <li><Link href="/services">What We Do</Link></li>
               <li><Link href="/about">About</Link></li>
               <li><Link href="/contact">Contact</Link></li>
+            </ul>
+          </div>
+
+          <div className="sf-col">
+            <span className="sf-head">Our Works</span>
+            <ul>
+              {WORKS_LINKS.map((w) => (
+                <li key={w.href}>
+                  <Link href={w.href}>{w.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -174,15 +189,6 @@ export default function Footer() {
                   <Link href={s.href}>{s.label}</Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          <div className="sf-col">
-            <span className="sf-head">Contact</span>
-            <ul>
-              <li><a href="mailto:info@iattechnologies.com">info@iattechnologies.com</a></li>
-              <li><a href="#">+91 8925671055</a></li>
-              <li><a href="#">Chennai, India</a></li>
             </ul>
           </div>
         </div>

@@ -355,7 +355,8 @@ nav a.nav-cta:hover .arr{transform:translateX(4px)}
 /* --- top: blurb + link columns --- */
 .sf-top{
   display:grid;
-  grid-template-columns:1.2fr 1fr 1.2fr 1fr;
+  grid-template-columns:repeat(4, 1fr);
+  align-items:start;
   gap:44px;
   margin-bottom:84px;
 }
